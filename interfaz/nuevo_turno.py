@@ -149,36 +149,6 @@ def mostrar_nuevo_turno(frame_contenido):
         pady=10
     )
 
-    label_observaciones = tk.Label(
-        formulario,
-        text="Observaciones (opcional):",
-        bg="#FFFFFF",
-        font=("Arial", 11)
-    )
-
-    label_observaciones.grid(
-        row=4,
-        column=0,
-        sticky="nw",
-        padx=10,
-        pady=10
-    )
-
-    entrada_observaciones = tk.Text(
-        formulario,
-        width=40,
-        height=4,
-        font=("Arial", 10),
-        relief="groove",
-        bg="#F5F5F5"
-    )
-
-    entrada_observaciones.grid(
-        row=4,
-        column=1,
-        padx=10,
-        pady=10
-    )
 
     boton_guardar = tk.Button(
         frame_contenido,
