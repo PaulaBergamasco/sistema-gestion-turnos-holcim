@@ -59,3 +59,63 @@ def mostrar_gestion_turnos(frame_contenido):
         (5, "11/10/2024", "14:00", "Chofer E", "Vehículo 5", "Programado"),
         (6, "12/10/2024", "09:00", "Chofer F", "Vehículo 6", "En proceso")
     ]
+
+    for turno in turnos_de_ejemplo:
+        tabla.insert("", "end", values=turno)
+
+    barra_vertical = ttk.Scrollbar(
+        frame_tabla,
+        orient="vertical",
+        command=tabla.yview
+    )
+    tabla.configure(yscrollcommand=barra_vertical.set)
+
+    tabla.pack(side="left", fill="both", expand=True)
+    barra_vertical.pack(side="right", fill="y")
+
+    frame_acciones = tk.LabelFrame(
+        frame_contenido,
+        text="Acciones",
+        bg="#FFFFFF",
+        fg="#123B6D",
+        font=("Arial", 13, "bold"),
+        padx=20,
+        pady=15
+    )
+    frame_acciones.pack(fill="x", padx=35, pady=(0, 30))
+
+    contenedor_botones = tk.Frame(frame_acciones, bg="#FFFFFF")
+    contenedor_botones.pack()
+
+    boton_modificar = tk.Button(
+        contenedor_botones,
+        text="Modificar",
+        bg="#EAF3FF",
+        fg="#123B6D",
+        font=("Arial", 11),
+        width=18,
+        height=2
+    )
+    boton_modificar.pack(side="left", padx=8)
+
+    boton_cambiar_estado = tk.Button(
+        contenedor_botones,
+        text="Cambiar Estado",
+        bg="#F5F5F5",
+        fg="#123B6D",
+        font=("Arial", 11),
+        width=18,
+        height=2
+    )
+    boton_cambiar_estado.pack(side="left", padx=8)
+
+    boton_eliminar = tk.Button(
+        contenedor_botones,
+        text="Eliminar",
+        bg="#FFE7E7",
+        fg="#A91D22",
+        font=("Arial", 11),
+        width=18,
+        height=2
+    )
+    boton_eliminar.pack(side="left", padx=8)
