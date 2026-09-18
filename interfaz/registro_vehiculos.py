@@ -113,6 +113,7 @@ def mostrar_registro_vehiculos(frame_contenido):
         fg="white",
         font=("Arial", 11, "bold"),
         width=18,
+        height=2,
         command=guardar_vehiculo
     )
     boton_guardar.pack(anchor="e", padx=50, pady=(15, 20))
@@ -126,7 +127,7 @@ def mostrar_registro_vehiculos(frame_contenido):
         padx=20,
         pady=10
     )
-    frame_tabla.pack(padx=50, fill="both", expand=True, pady=(0, 10))
+    frame_tabla.pack(padx=50, fill="both", expand=True, pady=0)
 
     columnas = ("Patente", "Marca", "Modelo")
     tabla = ttk.Treeview(
@@ -151,7 +152,9 @@ def mostrar_registro_vehiculos(frame_contenido):
         text="Eliminar Seleccionado",
         bg="#A91D22",
         fg="white",
-        font=("Arial", 10, "bold"),
+        font=("Arial", 11, "bold"),
+        width=18,
+        height=2,
         command=eliminar_vehiculo
     )
-    boton_eliminar.pack(anchor="e", padx=50, pady=(0, 20))
+    boton_eliminar.pack(anchor="e", padx=50, pady=(15, 20))

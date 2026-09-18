@@ -154,9 +154,10 @@ def mostrar_nuevo_turno(frame_contenido):
         frame_contenido,
         text="Guardar Turno",
         bg="#123B6D",
-        fg="white",
+        fg="#FFFFFF",
         font=("Arial", 11, "bold"),
-        width=18
+        width=18,
+        height=2,
     )
 
     boton_guardar.pack(

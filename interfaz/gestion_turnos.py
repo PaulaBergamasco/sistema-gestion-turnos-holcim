@@ -7,7 +7,7 @@ def mostrar_gestion_turnos(frame_contenido):
         frame_contenido,
         text="Gestión de Turnos",
         bg="#FFFFFF",
-        fg="#6D1265",
+        fg="#123B6D",
         font=("Arial", 24, "bold")
     )
     titulo.pack(anchor="w", padx=35, pady=(30, 0))
@@ -16,7 +16,7 @@ def mostrar_gestion_turnos(frame_contenido):
         frame_contenido,
         text="Seleccione un turno para modificar, cambiar su estado o eliminarlo.",
         bg="#FFFFFF",
-        fg="#6D1212",
+        fg="#555555",
         font=("Arial", 11)
     )
     descripcion.pack(anchor="w", padx=35, pady=(0, 20))

@@ -1,15 +1,9 @@
 import tkinter as tk
-
-
-def mostrar_registro_choferes(frame_contenido):
-
-    import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox
 
 
 def mostrar_registro_choferes(frame_contenido):
-
     
     titulo = tk.Label(
         frame_contenido,
@@ -161,40 +155,6 @@ def mostrar_registro_choferes(frame_contenido):
         padx=10,
         pady=10
     )
-    label_estado = tk.Label(
-        formulario,
-        text="Estado:",
-        bg="#FFFFFF",
-        font=("Arial", 11)
-    )
-
-    label_estado.grid(
-        row=4,
-        column=0,
-        sticky="w",
-        padx=10,
-        pady=10
-    )
-
-    combo_estado = ttk.Combobox(
-        formulario,
-        values=[
-            "Activo",
-            "Inactivo"
-        ],
-        state="readonly",
-        width=37,
-        font=("Arial", 11)
-    )
-
-    combo_estado.grid(
-        row=4,
-        column=1,
-        padx=10,
-        pady=10
-    )
-
-    combo_estado.set("Activo")
 
     def limpiar_campos():
 
@@ -218,16 +178,14 @@ def mostrar_registro_choferes(frame_contenido):
             tk.END
         )
 
-        combo_estado.set("Activo")
-
         entrada_dni.focus()
+
     def guardar_chofer():
 
         dni = entrada_dni.get().strip()
         nombre = entrada_nombre.get().strip()
         apellido = entrada_apellido.get().strip()
         telefono = entrada_telefono.get().strip()
-        estado = combo_estado.get()
 
         # Verificar campos obligatorios
         if not dni or not nombre or not apellido:
@@ -265,7 +223,6 @@ def mostrar_registro_choferes(frame_contenido):
                 nombre,
                 apellido,
                 telefono,
-                estado
             )
         )
 
@@ -387,8 +344,7 @@ def mostrar_registro_choferes(frame_contenido):
     )
 
     boton_guardar.pack(
-        side="left",
-        padx=(0, 10)
+        side="right"
     )
 
     # Botón limpiar
@@ -399,7 +355,7 @@ def mostrar_registro_choferes(frame_contenido):
         fg="#123B6D",
         activebackground="#D3DEEC",
         font=("Arial", 11, "bold"),
-        width=15,
+        width=18,
         height=2,
         relief="flat",
         cursor="hand2",
@@ -407,8 +363,8 @@ def mostrar_registro_choferes(frame_contenido):
     )
 
     boton_limpiar.pack(
-        side="left",
-        padx=10
+        side="right",
+        padx= (0, 10)
     )
 
     # Botón eliminar
@@ -419,8 +375,8 @@ def mostrar_registro_choferes(frame_contenido):
         fg="white",
         activebackground="#80161A",
         activeforeground="white",
-        font=("Arial", 10, "bold"),
-        width=20,
+        font=("Arial", 11, "bold"),
+        width=18,
         height=2,
         relief="flat",
         cursor="hand2",
@@ -428,20 +384,7 @@ def mostrar_registro_choferes(frame_contenido):
     )
 
     boton_eliminar.pack(
-        side="right"
-    )
-    informacion = tk.Label(
-        frame_contenido,
-        text="Nota: los vehículos no se asignan de manera permanente al chofer. "
-             "La relación Chofer - Vehículo se establece al generar un turno.",
-        bg="#FFFFFF",
-        fg="#666666",
-        font=("Arial", 9, "italic"),
-        wraplength=900,
-        justify="center"
-    )
-
-    informacion.pack(
-        pady=(0, 10)
+        side="right",
+        padx= (0, 10)
     )
 
