@@ -1,5 +1,5 @@
 import tkinter as tk
-
+from tkinter import ttk
 
 def mostrar_consultas(frame_contenido):
     for widget in frame_contenido.winfo_children():
