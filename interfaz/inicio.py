@@ -51,7 +51,7 @@ def mostrar_inicio(frame_contenido):
 
     indicacion.pack()
 
-    logo = tk.PhotoImage(file="imagenes/1626213854995.png")
+    logo = tk.PhotoImage(file="imagenes/logo.png")
 
     imagen_logo = tk.Label(
         frame_contenido,

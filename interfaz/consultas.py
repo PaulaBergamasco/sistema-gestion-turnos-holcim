@@ -6,32 +6,38 @@ def mostrar_consultas(frame_contenido):
         widget.destroy()
 
     
-    frame_main = tk.Frame(frame_contenido, bg="#f4f4f4")
-    frame_main.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+    frame_main = tk.Frame(frame_contenido, bg="#FFFFFF")
+    frame_main.pack(fill=tk.BOTH, expand=True, padx=35, pady=(30, 20))
 
     
     lbl_titulo = tk.Label(
         frame_main, 
-        text="Consulta de Turnos y Registros", 
-        font=("Helvetica", 16, "bold"), 
-        bg="#f4f4f4", 
-        fg="#333333"
+        text="Consultas", 
+        font=("Arial", 24, "bold"), 
+        bg="#FFFFFF", 
+        fg="#123B6D"
     )
-    lbl_titulo.pack(anchor="w", pady=(0, 15))
+    lbl_titulo.pack(anchor="w", pady=(0, 10))
+
+    descripcion = tk.Label(
+        frame_main, text="Consulte los turnos registrados utilizando los filtros",
+        bg="#FFFFFF", fg="#555555", font=("Arial", 11)
+    )
+    descripcion.pack(anchor="w", pady=(0, 20))
 
    
     frame_filtros = tk.LabelFrame(
         frame_main, 
-        text=" Filtros de Búsqueda ", 
-        font=("Helvetica", 10, "bold"), 
-        bg="#f4f4f4", 
-        fg="#555555", 
-        padx=10, 
-        pady=10
+        text="Filtros de búsqueda", 
+        font=("Arial", 14, "bold"), 
+        bg="#FFFFFF", 
+        fg="#123B6D", 
+        padx=20, 
+        pady=15
     )
     frame_filtros.pack(fill=tk.X, pady=(0, 15))
 
-    tk.Label(frame_filtros, text="Buscar por:", bg="#f4f4f4").grid(row=0, column=0, padx=5, pady=5, sticky="w")
+    tk.Label(frame_filtros, text="Buscar por:", bg="#FFFFFF", font=("Arial", 11)).grid(row=0, column=0, padx=5, pady=5, sticky="w")
     
     combo_criterio = ttk.Combobox(
         frame_filtros, 
@@ -42,8 +48,8 @@ def mostrar_consultas(frame_contenido):
     combo_criterio.grid(row=0, column=1, padx=5, pady=5)
     combo_criterio.current(0)
 
-    tk.Label(frame_filtros, text="Término:", bg="#f4f4f4").grid(row=0, column=2, padx=5, pady=5, sticky="w")
-    txt_busqueda = tk.Entry(frame_filtros, width=25)
+    tk.Label(frame_filtros, text="Término:", bg="#FFFFFF", font=("Arial", 11)).grid(row=0, column=2, padx=5, pady=5, sticky="w")
+    txt_busqueda = tk.Entry(frame_filtros, width=25, font=("Arial", 11), relief="groove", bg="#F5F5F5")
     txt_busqueda.grid(row=0, column=3, padx=5, pady=5)
 
    
@@ -56,9 +62,12 @@ def mostrar_consultas(frame_contenido):
             
         
         datos_ejemplo = [
-            ("T-001", "AB123CD", "35123456", "Juan Pérez", "10/10/2026 08:30", "Completado"),
-            ("T-002", "CD456EF", "28987654", "Carlos Gómez", "10/10/2026 09:15", "En Espera"),
-            ("T-003", "FG789HI", "40111222", "María Rodríguez", "10/10/2026 10:00", "Cancelado"),
+            (1, "AB123CD", "35123456", "Juan Pérez", "20/10/2026 08:00", "Programado"),
+            (2, "CD456EF", "28987654", "Carlos Gómez", "20/10/2026 10:00", "En proceso"),
+            (3, "FG789HI", "40111222", "María Rodríguez", "20/10/2026 12:00", "Finalizado"),
+            (4, "JK123LM", "32123456", "Chofer D", "21/10/2026 08:00", "Cancelado"),
+            (5, "NO456PQ", "33123456", "Chofer E", "21/10/2026 14:00", "Programado"),
+            (6, "RS789TU", "34123456", "Chofer F", "22/10/2026 09:00", "En proceso"),
         ]
 
         for registro in datos_ejemplo:
@@ -67,7 +76,7 @@ def mostrar_consultas(frame_contenido):
             else:
                 if (criterio == "Patente / Vehículo" and valor in registro[1].lower()) or \
                    (criterio == "DNI / Chofer" and (valor in registro[2].lower() or valor in registro[3].lower())) or \
-                   (criterio == "Número de Turno" and valor in registro[0].lower()) or \
+                   (criterio == "Número de Turno" and valor in str(registro[0]).lower()) or \
                    (criterio == "Estado" and valor in registro[5].lower()):
                     tabla.insert("", tk.END, values=registro)
 
@@ -76,14 +85,14 @@ def mostrar_consultas(frame_contenido):
         buscar()
 
     
-    btn_buscar = tk.Button(frame_filtros, text="Buscar", command=buscar, bg="#0056b3", fg="white", width=10, relief=tk.FLAT)
+    btn_buscar = tk.Button(frame_filtros, text="Buscar", command=buscar, bg="#123B6D", fg="white", width=12, height=2, font=("Arial", 11, "bold"), relief=tk.FLAT)
     btn_buscar.grid(row=0, column=4, padx=10, pady=5)
 
-    btn_limpiar = tk.Button(frame_filtros, text="Limpiar", command=limpiar, bg="#6c757d", fg="white", width=10, relief=tk.FLAT)
+    btn_limpiar = tk.Button(frame_filtros, text="Limpiar", command=limpiar, bg="#E9EEF5", fg="#123B6D", width=12, height=2, font=("Arial", 11, "bold"), relief=tk.FLAT)
     btn_limpiar.grid(row=0, column=5, padx=5, pady=5)
 
     
-    frame_tabla = tk.Frame(frame_main, bg="#f4f4f4")
+    frame_tabla = tk.LabelFrame(frame_main, text="Resultados de la consulta", bg="#FFFFFF", fg="#123B6D", font=("Arial", 14, "bold"), padx=10, pady=10)
     frame_tabla.pack(fill=tk.BOTH, expand=True)
 
     columnas = ("Turno", "Patente", "DNI Chofer", "Nombre Chofer", "Fecha / Hora", "Estado")
