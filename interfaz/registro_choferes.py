@@ -13,7 +13,7 @@ def mostrar_registro_choferes(frame_contenido):
         font=("Arial", 24, "bold")
     )
 
-    titulo.pack(pady=(30, 10))
+    titulo.pack(anchor="w", padx=35, pady=(30, 10))
 
     descripcion = tk.Label(
         frame_contenido,
@@ -23,7 +23,7 @@ def mostrar_registro_choferes(frame_contenido):
         font=("Arial", 11)
     )
 
-    descripcion.pack(pady=(0, 20))
+    descripcion.pack(anchor="w", padx=35, pady=(0, 20))
 
 
     formulario = tk.LabelFrame(
@@ -36,7 +36,7 @@ def mostrar_registro_choferes(frame_contenido):
     )
 
     formulario.pack(
-        padx=50,
+        padx=35,
         fill="x"
     )
     label_dni = tk.Label(
@@ -156,6 +156,11 @@ def mostrar_registro_choferes(frame_contenido):
         pady=10
     )
 
+    label_email = tk.Label(formulario, text="Email:", bg="#FFFFFF", font=("Arial", 11))
+    label_email.grid(row=4, column=0, sticky="w", padx=10, pady=10)
+    entrada_email = tk.Entry(formulario, width=40, font=("Arial", 11), relief="groove", bg="#F5F5F5")
+    entrada_email.grid(row=4, column=1, padx=10, pady=10)
+
     def limpiar_campos():
 
         entrada_dni.delete(
@@ -178,6 +183,7 @@ def mostrar_registro_choferes(frame_contenido):
             tk.END
         )
 
+        entrada_email.delete(0, tk.END)
         entrada_dni.focus()
 
     def guardar_chofer():
@@ -186,15 +192,20 @@ def mostrar_registro_choferes(frame_contenido):
         nombre = entrada_nombre.get().strip()
         apellido = entrada_apellido.get().strip()
         telefono = entrada_telefono.get().strip()
+        email = entrada_email.get().strip()
 
         # Verificar campos obligatorios
-        if not dni or not nombre or not apellido:
+        if not dni or not nombre or not apellido or not telefono or not email:
 
             messagebox.showwarning(
                 "Campos incompletos",
-                "Complete DNI, nombre y apellido del chofer."
+                "Complete todos los campos del chofer."
             )
 
+            return
+
+        if "@" not in email or "." not in email.split("@")[-1] or email.count("@") != 1:
+            messagebox.showwarning("Email inválido", "Ingrese un email válido.")
             return
 
         # Verificar DNI duplicado
@@ -223,6 +234,7 @@ def mostrar_registro_choferes(frame_contenido):
                 nombre,
                 apellido,
                 telefono,
+                email,
             )
         )
 
@@ -242,7 +254,7 @@ def mostrar_registro_choferes(frame_contenido):
     )
 
     frame_tabla.pack(
-        padx=50,
+        padx=35,
         fill="both",
         expand=True,
         pady=(20, 10)
@@ -253,7 +265,7 @@ def mostrar_registro_choferes(frame_contenido):
         "Nombre",
         "Apellido",
         "Teléfono",
-        "Estado"
+        "Email"
     )
 
     tabla_choferes = ttk.Treeview(
@@ -323,7 +335,7 @@ def mostrar_registro_choferes(frame_contenido):
 
     frame_botones.pack(
         fill="x",
-        padx=50,
+        padx=35,
         pady=(0, 20)
     )
 

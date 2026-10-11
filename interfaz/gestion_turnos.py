@@ -10,7 +10,7 @@ def mostrar_gestion_turnos(frame_contenido):
         fg="#123B6D",
         font=("Arial", 24, "bold")
     )
-    titulo.pack(anchor="w", padx=35, pady=(30, 0))
+    titulo.pack(anchor="w", padx=35, pady=(30, 10))
 
     descripcion = tk.Label(
         frame_contenido,
@@ -26,7 +26,7 @@ def mostrar_gestion_turnos(frame_contenido):
         text="Turnos registrados",
         bg="#FFFFFF",
         fg="#123B6D",
-        font=("Arial", 13, "bold"),
+        font=("Arial", 14, "bold"),
         padx=10,
         pady=10
     )
@@ -52,12 +52,12 @@ def mostrar_gestion_turnos(frame_contenido):
     tabla.column("Estado", width=130, anchor="center")
 
     turnos_de_ejemplo = [
-        (1, "10/10/2024", "08:00", "Chofer A", "Vehículo 1", "Programado"),
-        (2, "10/10/2024", "10:00", "Chofer B", "Vehículo 2", "En proceso"),
-        (3, "10/10/2024", "12:00", "Chofer C", "Vehículo 3", "Finalizado"),
-        (4, "11/10/2024", "08:00", "Chofer D", "Vehículo 4", "Cancelado"),
-        (5, "11/10/2024", "14:00", "Chofer E", "Vehículo 5", "Programado"),
-        (6, "12/10/2024", "09:00", "Chofer F", "Vehículo 6", "En proceso")
+        (1, "20/10/2026", "08:00", "Chofer A", "Vehículo 1", "Programado"),
+        (2, "20/10/2026", "10:00", "Chofer B", "Vehículo 2", "En proceso"),
+        (3, "20/10/2026", "12:00", "Chofer C", "Vehículo 3", "Finalizado"),
+        (4, "21/10/2026", "08:00", "Chofer D", "Vehículo 4", "Cancelado"),
+        (5, "21/10/2026", "14:00", "Chofer E", "Vehículo 5", "Programado"),
+        (6, "22/10/2026", "09:00", "Chofer F", "Vehículo 6", "En proceso")
     ]
 
     for turno in turnos_de_ejemplo:
@@ -78,7 +78,7 @@ def mostrar_gestion_turnos(frame_contenido):
         text="Acciones",
         bg="#FFFFFF",
         fg="#123B6D",
-        font=("Arial", 13, "bold"),
+        font=("Arial", 14, "bold"),
         padx=20,
         pady=15
     )

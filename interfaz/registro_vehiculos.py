@@ -11,7 +11,7 @@ def mostrar_registro_vehiculos(frame_contenido):
         fg="#123B6D",
         font=("Arial", 24, "bold")
     )
-    titulo.pack(pady=(30, 10))
+    titulo.pack(anchor="w", padx=35, pady=(30, 10))
 
     descripcion = tk.Label(
         frame_contenido,
@@ -20,7 +20,7 @@ def mostrar_registro_vehiculos(frame_contenido):
         fg="#555555",
         font=("Arial", 11)
     )
-    descripcion.pack(pady=(0, 20))
+    descripcion.pack(anchor="w", padx=35, pady=(0, 20))
 
     
     formulario = tk.LabelFrame(
@@ -31,7 +31,7 @@ def mostrar_registro_vehiculos(frame_contenido):
         padx=30,
         pady=20
     )
-    formulario.pack(padx=50, fill="x")
+    formulario.pack(padx=35, fill="x")
 
    
     label_patente = tk.Label(
@@ -79,6 +79,9 @@ def mostrar_registro_vehiculos(frame_contenido):
             )
             return
 
+        if any(tabla.item(item, "values")[0] == patente for item in tabla.get_children()):
+            messagebox.showwarning("Patente duplicada", "La patente ya está registrada.")
+            return
         tabla.insert("", "end", values=(patente, marca, modelo))
         limpiar_campos()
         messagebox.showinfo(
@@ -116,7 +119,7 @@ def mostrar_registro_vehiculos(frame_contenido):
         height=2,
         command=guardar_vehiculo
     )
-    boton_guardar.pack(anchor="e", padx=50, pady=(15, 20))
+    boton_guardar.pack(anchor="e", padx=35, pady=(15, 20))
 
     
     frame_tabla = tk.LabelFrame(
@@ -127,7 +130,7 @@ def mostrar_registro_vehiculos(frame_contenido):
         padx=20,
         pady=10
     )
-    frame_tabla.pack(padx=50, fill="both", expand=True, pady=0)
+    frame_tabla.pack(padx=35, fill="both", expand=True, pady=0)
 
     columnas = ("Patente", "Marca", "Modelo")
     tabla = ttk.Treeview(
@@ -157,4 +160,4 @@ def mostrar_registro_vehiculos(frame_contenido):
         height=2,
         command=eliminar_vehiculo
     )
-    boton_eliminar.pack(anchor="e", padx=50, pady=(15, 20))
+    boton_eliminar.pack(anchor="e", padx=35, pady=(15, 20))

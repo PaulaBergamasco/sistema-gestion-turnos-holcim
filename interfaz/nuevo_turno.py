@@ -12,7 +12,7 @@ def mostrar_nuevo_turno(frame_contenido):
         font=("Arial", 24, "bold")
     )
 
-    titulo.pack(pady=(50, 10))
+    titulo.pack(anchor="w", padx=35, pady=(30, 10))
 
     descripcion = tk.Label(
         frame_contenido,
@@ -22,7 +22,7 @@ def mostrar_nuevo_turno(frame_contenido):
         font=("Arial", 11)
     )
 
-    descripcion.pack(pady=(0, 30))
+    descripcion.pack(anchor="w", padx=35, pady=(0, 20))
 
     formulario = tk.LabelFrame(
         frame_contenido,
@@ -33,7 +33,7 @@ def mostrar_nuevo_turno(frame_contenido):
         pady=20
     )
 
-    formulario.pack(padx=50, fill="x")
+    formulario.pack(padx=35, fill="x")
 
     label_chofer = tk.Label(
         formulario,
@@ -162,6 +162,6 @@ def mostrar_nuevo_turno(frame_contenido):
 
     boton_guardar.pack(
         anchor="e",
-        padx=50,
+        padx=35,
         pady=20
     )
