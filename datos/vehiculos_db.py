@@ -29,3 +29,19 @@ def registrar_vehiculo(patente, marca, modelo):
             cursor.close()
     finally:
         conexion.close()
+
+def eliminar_vehiculo(identificador):
+    conexion = conectar()
+    try:
+        cursor = conexion.cursor()
+        try:
+            cursor.execute("DELETE FROM VEHICULO WHERE Patente = %s", (identificador,))
+            conexion.commit()
+            return cursor.rowcount
+        except Exception:
+            conexion.rollback()
+            raise
+        finally:
+            cursor.close()
+    finally:
+        conexion.close()

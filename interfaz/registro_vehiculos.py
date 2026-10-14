@@ -1,7 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox
-from datos.vehiculos_db import listar_vehiculos, registrar_vehiculo
+from datos.vehiculos_db import listar_vehiculos, registrar_vehiculo, eliminar_vehiculo as eliminar_en_bd
 
 def mostrar_registro_vehiculos(frame_contenido):
 
@@ -116,8 +116,13 @@ def mostrar_registro_vehiculos(frame_contenido):
         if messagebox.askyesno(
             "Confirmar", "¿Desea eliminar el vehículo seleccionado?"
         ):
-            tabla.delete(seleccion)
-            messagebox.showinfo("Eliminado", "Vehículo eliminado con éxito.")
+            patente = tabla.item(seleccion[0], "values")[0]
+            try:
+                eliminar_en_bd(patente)
+                cargar_tabla()
+                messagebox.showinfo("Eliminado", "Vehículo eliminado con éxito.")
+            except Exception:
+                messagebox.showerror("Error", "No se puede eliminar el vehículo si tiene turnos asociados.")
 
     boton_guardar = tk.Button(
         frame_contenido,

@@ -1,14 +1,10 @@
 """Funciones propias de Gestión de Turnos."""
-
 from conexion import conectar
-
 
 def listar_turnos():
     conexion = conectar()
-
     try:
         cursor = conexion.cursor()
-
         try:
             cursor.execute("""
                 SELECT
@@ -23,94 +19,71 @@ def listar_turnos():
                 JOIN VEHICULO V ON T.Patente = V.Patente
                 ORDER BY T.Fecha, T.Hora
             """)
-
             return cursor.fetchall()
-
         finally:
             cursor.close()
-
     finally:
         conexion.close()
 
-
 def modificar_turno(id_turno, fecha, hora):
     conexion = conectar()
-
     try:
         cursor = conexion.cursor()
-
         try:
             cursor.execute(
                 """
                 UPDATE TURNO
                 SET Fecha = %s, Hora = %s
-                WHERE ID = %s
+                WHERE ID = %s AND Estado <> 'Cancelado'
                 """,
                 (fecha, hora, id_turno)
             )
 
             conexion.commit()
-
         except Exception:
             conexion.rollback()
             raise
-
         finally:
             cursor.close()
-
     finally:
         conexion.close()
 
-
 def cambiar_estado(id_turno, nuevo_estado):
     conexion = conectar()
-
     try:
         cursor = conexion.cursor()
-
         try:
             cursor.execute(
                 """
                 UPDATE TURNO
                 SET Estado = %s
-                WHERE ID = %s
+                WHERE ID = %s AND Estado <> 'Cancelado'
                 """,
                 (nuevo_estado, id_turno)
             )
-
             conexion.commit()
-
         except Exception:
             conexion.rollback()
             raise
-
         finally:
             cursor.close()
-
     finally:
         conexion.close()
 
-
 def eliminar_turno(id_turno):
     conexion = conectar()
-
     try:
         cursor = conexion.cursor()
-
         try:
             cursor.execute(
                 "DELETE FROM TURNO WHERE ID = %s",
                 (id_turno,)
             )
-
             conexion.commit()
-
         except Exception:
             conexion.rollback()
             raise
-
         finally:
             cursor.close()
-
     finally:
         conexion.close()

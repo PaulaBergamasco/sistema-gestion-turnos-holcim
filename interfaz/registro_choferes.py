@@ -1,7 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox
-from datos.choferes_db import listar_choferes, registrar_chofer
+from datos.choferes_db import listar_choferes, registrar_chofer, eliminar_chofer as eliminar_en_bd
 
 
 def mostrar_registro_choferes(frame_contenido):
@@ -304,17 +304,13 @@ def mostrar_registro_choferes(frame_contenido):
         )
 
         if confirmar:
-
-            for item in seleccion:
-
-                tabla_choferes.delete(item)
-
-            messagebox.showinfo(
-                "Eliminado",
-                "Chofer eliminado correctamente."
-            )
-
-    
+            dni = tabla_choferes.item(seleccion[0], "values")[0]
+            try:
+                eliminar_en_bd(dni)
+                cargar_tabla()
+                messagebox.showinfo("Eliminado", "Chofer eliminado correctamente.")
+            except Exception:
+                messagebox.showerror("Error", "No se puede eliminar el chofer si tiene turnos asociados.")
 
     frame_botones = tk.Frame(
         frame_contenido,

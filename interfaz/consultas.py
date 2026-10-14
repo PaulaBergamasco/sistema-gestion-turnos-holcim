@@ -1,5 +1,6 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
+from datos.consultas_db import buscar_turnos
 
 def mostrar_consultas(frame_contenido):
     for widget in frame_contenido.winfo_children():
@@ -54,31 +55,14 @@ def mostrar_consultas(frame_contenido):
 
    
     def buscar():
-        criterio = combo_criterio.get()
-        valor = txt_busqueda.get().strip().lower()
-        
-        for item in tabla.get_children():
-            tabla.delete(item)
-            
-        
-        datos_ejemplo = [
-            (1, "AB123CD", "35123456", "Juan Pérez", "20/10/2026 08:00", "Programado"),
-            (2, "CD456EF", "28987654", "Carlos Gómez", "20/10/2026 10:00", "En proceso"),
-            (3, "FG789HI", "40111222", "María Rodríguez", "20/10/2026 12:00", "Finalizado"),
-            (4, "JK123LM", "32123456", "Chofer D", "21/10/2026 08:00", "Cancelado"),
-            (5, "NO456PQ", "33123456", "Chofer E", "21/10/2026 14:00", "Programado"),
-            (6, "RS789TU", "34123456", "Chofer F", "22/10/2026 09:00", "En proceso"),
-        ]
-
-        for registro in datos_ejemplo:
-            if not valor:
-                tabla.insert("", tk.END, values=registro)
-            else:
-                if (criterio == "Patente / Vehículo" and valor in registro[1].lower()) or \
-                   (criterio == "DNI / Chofer" and (valor in registro[2].lower() or valor in registro[3].lower())) or \
-                   (criterio == "Número de Turno" and valor in str(registro[0]).lower()) or \
-                   (criterio == "Estado" and valor in registro[5].lower()):
-                    tabla.insert("", tk.END, values=registro)
+        try:
+            registros = buscar_turnos(combo_criterio.get(), txt_busqueda.get().strip())
+        except Exception as error:
+            messagebox.showerror("Error de consulta", f"No se pudieron consultar los turnos:\n{error}")
+            return
+        tabla.delete(*tabla.get_children())
+        for registro in registros:
+            tabla.insert("", tk.END, values=registro)
 
     def limpiar():
         txt_busqueda.delete(0, tk.END)
