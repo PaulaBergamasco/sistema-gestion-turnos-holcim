@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox
+from datos.vehiculos_db import listar_vehiculos, registrar_vehiculo
 
 def mostrar_registro_vehiculos(frame_contenido):
 
@@ -22,7 +23,6 @@ def mostrar_registro_vehiculos(frame_contenido):
     )
     descripcion.pack(anchor="w", padx=35, pady=(0, 20))
 
-    
     formulario = tk.LabelFrame(
         frame_contenido,
         text="Datos del vehículo",
@@ -33,7 +33,6 @@ def mostrar_registro_vehiculos(frame_contenido):
     )
     formulario.pack(padx=35, fill="x")
 
-   
     label_patente = tk.Label(
         formulario, text="Patente:", bg="#FFFFFF", font=("Arial", 11)
     )
@@ -44,7 +43,6 @@ def mostrar_registro_vehiculos(frame_contenido):
     )
     entrada_patente.grid(row=0, column=1, padx=10, pady=10)
 
-    
     label_marca = tk.Label(
         formulario, text="Marca:", bg="#FFFFFF", font=("Arial", 11)
     )
@@ -55,7 +53,6 @@ def mostrar_registro_vehiculos(frame_contenido):
     )
     entrada_marca.grid(row=1, column=1, padx=10, pady=10)
 
-    
     label_modelo = tk.Label(
         formulario, text="Modelo:", bg="#FFFFFF", font=("Arial", 11)
     )
@@ -66,7 +63,17 @@ def mostrar_registro_vehiculos(frame_contenido):
     )
     entrada_modelo.grid(row=2, column=1, padx=10, pady=10)
 
-    
+    def cargar_tabla():
+        """Limpia la grilla y la vuelve a poblar con los datos de la BD."""
+        for item in tabla.get_children():
+            tabla.delete(item)
+        try:
+            vehiculos = listar_vehiculos()
+            for v in vehiculos:
+                tabla.insert("", "end", values=v)
+        except Exception as e:
+            messagebox.showerror("Error", f"No se pudieron cargar los vehículos: {e}")
+
     def guardar_vehiculo():
         patente = entrada_patente.get().strip().upper()
         marca = entrada_marca.get().strip()
@@ -79,14 +86,18 @@ def mostrar_registro_vehiculos(frame_contenido):
             )
             return
 
-        if any(tabla.item(item, "values")[0] == patente for item in tabla.get_children()):
-            messagebox.showwarning("Patente duplicada", "La patente ya está registrada.")
-            return
-        tabla.insert("", "end", values=(patente, marca, modelo))
-        limpiar_campos()
-        messagebox.showinfo(
-            "Éxito", f"Vehículo patente {patente} guardado correctamente."
-        )
+        try:
+            registrar_vehiculo(patente, marca, modelo)
+            limpiar_campos()
+            cargar_tabla()
+            messagebox.showinfo(
+                "Éxito", f"Vehículo patente {patente} guardado correctamente."
+            )
+        except Exception:
+            messagebox.showerror(
+                "Error de Registro",
+                "No se pudo guardar el vehículo. Verifique si la patente ya existe."
+            )
 
     def limpiar_campos():
         entrada_patente.delete(0, tk.END)
@@ -108,7 +119,6 @@ def mostrar_registro_vehiculos(frame_contenido):
             tabla.delete(seleccion)
             messagebox.showinfo("Eliminado", "Vehículo eliminado con éxito.")
 
-    
     boton_guardar = tk.Button(
         frame_contenido,
         text="Guardar Vehículo",
@@ -121,7 +131,6 @@ def mostrar_registro_vehiculos(frame_contenido):
     )
     boton_guardar.pack(anchor="e", padx=35, pady=(15, 20))
 
-    
     frame_tabla = tk.LabelFrame(
         frame_contenido,
         text="Vehículos registrados",
@@ -149,7 +158,6 @@ def mostrar_registro_vehiculos(frame_contenido):
     tabla.configure(yscroll=scrollbar.set)
     scrollbar.pack(side="right", fill="y")
 
-    
     boton_eliminar = tk.Button(
         frame_contenido,
         text="Eliminar Seleccionado",
@@ -161,3 +169,5 @@ def mostrar_registro_vehiculos(frame_contenido):
         command=eliminar_vehiculo
     )
     boton_eliminar.pack(anchor="e", padx=35, pady=(15, 20))
+
+    cargar_tabla()

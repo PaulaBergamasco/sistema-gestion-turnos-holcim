@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox
+from datos.choferes_db import listar_choferes, registrar_chofer
 
 
 def mostrar_registro_choferes(frame_contenido):
@@ -161,6 +162,17 @@ def mostrar_registro_choferes(frame_contenido):
     entrada_email = tk.Entry(formulario, width=40, font=("Arial", 11), relief="groove", bg="#F5F5F5")
     entrada_email.grid(row=4, column=1, padx=10, pady=10)
 
+    def cargar_tabla():
+        """Carga en la grilla los choferes almacenados en la BD."""
+        for item in tabla_choferes.get_children():
+            tabla_choferes.delete(item)
+        try:
+            choferes = listar_choferes()
+            for c in choferes:
+                tabla_choferes.insert("", "end", values=c)
+        except Exception as e:
+            messagebox.showerror("Error", f"No se pudieron cargar los choferes: {e}")
+
     def limpiar_campos():
 
         entrada_dni.delete(
@@ -194,7 +206,7 @@ def mostrar_registro_choferes(frame_contenido):
         telefono = entrada_telefono.get().strip()
         email = entrada_email.get().strip()
 
-        # Verificar campos obligatorios
+        
         if not dni or not nombre or not apellido or not telefono or not email:
 
             messagebox.showwarning(
@@ -208,42 +220,20 @@ def mostrar_registro_choferes(frame_contenido):
             messagebox.showwarning("Email inválido", "Ingrese un email válido.")
             return
 
-        # Verificar DNI duplicado
-        for item in tabla_choferes.get_children():
-
-            valores = tabla_choferes.item(
-                item,
-                "values"
+        try:
+            registrar_chofer(dni, nombre, apellido, telefono, email)
+            limpiar_campos()
+            cargar_tabla()
+            messagebox.showinfo(
+                "Chofer registrado",
+                f"El chofer {nombre} {apellido} fue registrado correctamente."
+            )
+        except Exception:
+            messagebox.showerror(
+                "DNI duplicado o error",
+                f"No se pudo registrar. Verifique si el DNI {dni} ya existe."
             )
 
-            if valores and valores[0] == dni:
-
-                messagebox.showwarning(
-                    "DNI duplicado",
-                    f"El DNI {dni} ya se encuentra registrado."
-                )
-
-                return
-
-        # Insertar chofer
-        tabla_choferes.insert(
-            "",
-            "end",
-            values=(
-                dni,
-                nombre,
-                apellido,
-                telefono,
-                email,
-            )
-        )
-
-        limpiar_campos()
-
-        messagebox.showinfo(
-            "Chofer registrado",
-            f"El chofer {nombre} {apellido} fue registrado correctamente."
-        )
     frame_tabla = tk.LabelFrame(
         frame_contenido,
         text="Choferes registrados",
@@ -275,7 +265,7 @@ def mostrar_registro_choferes(frame_contenido):
         height=6
     )
 
-    # Configurar columnas
+    
     for columna in columnas:
 
         tabla_choferes.heading(
@@ -324,9 +314,7 @@ def mostrar_registro_choferes(frame_contenido):
                 "Chofer eliminado correctamente."
             )
 
-    # ==========================================================
-    # BOTONES
-    # ==========================================================
+    
 
     frame_botones = tk.Frame(
         frame_contenido,
@@ -339,7 +327,7 @@ def mostrar_registro_choferes(frame_contenido):
         pady=(0, 20)
     )
 
-    # Botón guardar
+    
     boton_guardar = tk.Button(
         frame_botones,
         text="Guardar Chofer",
@@ -359,7 +347,7 @@ def mostrar_registro_choferes(frame_contenido):
         side="right"
     )
 
-    # Botón limpiar
+    
     boton_limpiar = tk.Button(
         frame_botones,
         text="Limpiar",
@@ -376,7 +364,7 @@ def mostrar_registro_choferes(frame_contenido):
 
     boton_limpiar.pack(
         side="right",
-        padx= (0, 10)
+        padx=(0, 10)
     )
 
     # Botón eliminar
@@ -397,6 +385,8 @@ def mostrar_registro_choferes(frame_contenido):
 
     boton_eliminar.pack(
         side="right",
-        padx= (0, 10)
+        padx=(0, 10)
     )
 
+    
+    cargar_tabla()

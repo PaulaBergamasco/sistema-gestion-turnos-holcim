@@ -1,4 +1,4 @@
-"""Acceso a datos de VEHICULO. Completar CRUD: responsable de Vehículos."""
+"""Acceso a datos de VEHICULO."""
 from conexion import conectar
 
 def listar_vehiculos():
@@ -13,4 +13,19 @@ def listar_vehiculos():
     finally:
         conexion.close()
 
-
+def registrar_vehiculo(patente, marca, modelo):
+    conexion = conectar()
+    try:
+        cursor = conexion.cursor()
+        try:
+            sql = "INSERT INTO VEHICULO (Patente, Marca, Modelo) VALUES (%s, %s, %s)"
+            cursor.execute(sql, (patente, marca, modelo))
+            conexion.commit()
+            return True
+        except Exception:
+            conexion.rollback()
+            raise
+        finally:
+            cursor.close()
+    finally:
+        conexion.close()
