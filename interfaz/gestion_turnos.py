@@ -144,6 +144,9 @@ def mostrar_gestion_turnos(frame_contenido):
         valores = item["values"]
 
         id_turno = valores[0]
+        if valores[5] == "Cancelado":
+            messagebox.showwarning("Turno cancelado", "Un turno cancelado no puede modificarse.")
+            return
         fecha_actual = valores[1]
         hora_actual = valores[2]
 
@@ -255,6 +258,9 @@ def mostrar_gestion_turnos(frame_contenido):
 
         id_turno = valores[0]
         estado_actual = valores[5]
+        if estado_actual == "Cancelado":
+            messagebox.showwarning("Turno cancelado", "Un turno cancelado no puede reactivarse.")
+            return
 
         ventana = tk.Toplevel()
         ventana.title("Cambiar Estado")

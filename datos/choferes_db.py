@@ -29,3 +29,19 @@ def registrar_chofer(dni, nombre, apellido, telefono, email):
             cursor.close()
     finally:
         conexion.close()
+
+def eliminar_chofer(identificador):
+    conexion = conectar()
+    try:
+        cursor = conexion.cursor()
+        try:
+            cursor.execute("DELETE FROM CHOFER WHERE DNI = %s", (identificador,))
+            conexion.commit()
+            return cursor.rowcount
+        except Exception:
+            conexion.rollback()
+            raise
+        finally:
+            cursor.close()
+    finally:
+        conexion.close()

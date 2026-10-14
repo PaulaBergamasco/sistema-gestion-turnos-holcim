@@ -47,7 +47,7 @@ def mostrar_nuevo_turno(frame_contenido):
         try:
             choferes.clear()
             vehiculos.clear()
-            for dni, nombre, apellido in listar_choferes():
+            for dni, nombre, apellido, telefono, email in listar_choferes():
                 choferes[f"{apellido}, {nombre} - {dni}"] = dni
             for patente, marca, modelo in listar_vehiculos():
                 vehiculos[f"{patente} - {marca} {modelo}"] = patente
@@ -82,7 +82,7 @@ def mostrar_nuevo_turno(frame_contenido):
         dni = choferes.get(combo_chofer.get())
         patente = vehiculos.get(combo_vehiculo.get())
         hora = combo_hora.get()
-        if not dni or not patente or hora not in HORARIOS:
+        if not dni or not patente or hora not in combo_hora["values"]:
             messagebox.showwarning("Datos incompletos", "Seleccioná chofer, vehículo y un horario disponible.")
             return
         try:
