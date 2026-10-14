@@ -1,5 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
+from tkinter import messagebox
+from conexion import conectar
 
 
 def mostrar_gestion_turnos(frame_contenido):
@@ -47,21 +49,42 @@ def mostrar_gestion_turnos(frame_contenido):
     tabla.column("ID", width=50, anchor="center")
     tabla.column("Fecha", width=110, anchor="center")
     tabla.column("Hora", width=90, anchor="center")
-    tabla.column("Chofer", width=180, anchor="center")
-    tabla.column("Vehículo", width=150, anchor="center")
+    tabla.column("Chofer", width=160, anchor="center")
+    tabla.column("Vehículo", width=220, anchor="center")
     tabla.column("Estado", width=130, anchor="center")
 
-    turnos_de_ejemplo = [
-        (1, "20/10/2026", "08:00", "Chofer A", "Vehículo 1", "Programado"),
-        (2, "20/10/2026", "10:00", "Chofer B", "Vehículo 2", "En proceso"),
-        (3, "20/10/2026", "12:00", "Chofer C", "Vehículo 3", "Finalizado"),
-        (4, "21/10/2026", "08:00", "Chofer D", "Vehículo 4", "Cancelado"),
-        (5, "21/10/2026", "14:00", "Chofer E", "Vehículo 5", "Programado"),
-        (6, "22/10/2026", "09:00", "Chofer F", "Vehículo 6", "En proceso")
-    ]
+    try:
+        conexion = conectar()
+        cursor = conexion.cursor()
 
-    for turno in turnos_de_ejemplo:
-        tabla.insert("", "end", values=turno)
+        consulta = """
+            SELECT
+                T.ID,
+                DATE_FORMAT(T.Fecha, '%d/%m/%Y'),
+                TIME_FORMAT(T.Hora, '%H:%i'),
+                CONCAT(C.Nombre, ' ', C.Apellido),
+                CONCAT(V.Patente, ' - ', V.Marca, ' ', V.Modelo),
+                T.Estado
+            FROM TURNO T
+            JOIN CHOFER C ON T.DNI_Chofer = C.DNI
+            JOIN VEHICULO V ON T.Patente = V.Patente
+            ORDER BY T.Fecha, T.Hora
+        """
+
+        cursor.execute(consulta)
+        turnos = cursor.fetchall()
+
+        for turno in turnos:
+            tabla.insert("", "end", values=turno)
+
+        cursor.close()
+        conexion.close()
+
+    except Exception as error:
+        messagebox.showerror(
+            "Error",
+            f"No se pudieron cargar los turnos.\n{error}"
+        )
 
     barra_vertical = ttk.Scrollbar(
         frame_tabla,
